@@ -23,9 +23,10 @@
  * which are adapted to the input formats of the library
  */
 #include <iostream>
+#include <opencv2/opencv.hpp>
 #include <ucoslam/ucoslam.h>
 #include <ucoslam/mapviewer.h>
-#include <opencv2/highgui/highgui.hpp>
+
 int main(int argc,char **argv){
     try {
         if(argc!=5) throw std::runtime_error("usage : video cameraparameters.yml vocabulary.fbow outputmap.map");
@@ -56,7 +57,7 @@ int main(int argc,char **argv){
         char keyPressed=0;
         while( VideoIn.grab() && keyPressed!=27){//keyPressed ==27 is esc
             VideoIn.retrieve(inputImage);
-            int frameNumber=VideoIn.get(CV_CAP_PROP_POS_FRAMES);
+            int frameNumber=VideoIn.get(cv::CAP_PROP_POS_FRAMES);
             cv::Mat posef2g= SLAM.process(inputImage,cameraParams,frameNumber);
             if(posef2g.empty()){
                 std::cerr<<"Frame "<<frameNumber<<" pose not found"<<std::endl;
